@@ -1,0 +1,101 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "variables": {
+    "resourcesApiVersion": "2016-09-01"
+  },
+  "parameters": {   
+    "Location": {
+      "type": "string",
+      "defaultValue": "West Europe",
+      "allowedValues": [
+        "West Europe",
+        "South Central US"
+      ]
+    },
+    "deploymentId": {
+      "type": "string",
+      "defaultValue": "NO"
+    },
+    "templateLinkBase": {
+      "type": "string",
+      "defaultValue": "https://noprovisionsa01.blob.core.windows.net/templates/ASE/"
+    },
+    "templateLinkAccessToken": {
+      "type": "securestring",
+      "defaultValue": "?st=2019-01-19T23%3A01%3A43Z&se=2020-01-20T23%3A01%3A00Z&sp=rl&sv=2018-03-28&sr=c&sig=F8tTiCXnQTRPPC8wHj1W9evH0ZFCZakzh%2B%2FFeQHR3Do%3D"
+    },
+    "existingVirtualNetworkName": {
+      "type": "string",
+      "defaultValue": "NO-VNET"
+    },
+    "existingVirtualNetworkResourceGroup": {
+      "type": "string",
+      "defaultValue": "NO-ASE-RG"
+    },
+    "subnetName": {
+      "type": "string",
+      "defaultValue": "NO-Management"
+    },
+    "internalLoadBalancingMode": {
+      "type": "int",
+      "defaultValue": 3
+    },
+    "dnsSuffix": {
+      "type": "string",
+      "defaultValue": "NO.Lan"
+    }
+  },
+  "resources": [
+    {
+      "apiVersion": "[variables('resourcesApiVersion')]",
+      "name": "[concat(parameters('deploymentId'), '-infrabase')]",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(uri(parameters('templateLinkBase'), 'nested/infrabase.azuredeploy.json'), parameters('templateLinkAccessToken'))]"
+        },
+        "parameters": {
+        }
+      }
+    },
+    {
+      "apiVersion": "[variables('resourcesApiVersion')]",
+      "name": "[concat(parameters('deploymentId'), '-ase')]",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(uri(parameters('templateLinkBase'), 'nested/ase.json'), parameters('templateLinkAccessToken'))]"
+        },
+        "parameters": {
+          "aseName": {
+              "value": "NO-ASE"
+          },
+          "aseLocation": {
+              "value": "[parameters('Location')]"
+          },
+          "existingVirtualNetworkName": {
+              "value": "[parameters('existingVirtualNetworkName')]"
+          },
+          "existingVirtualNetworkResourceGroup": {
+              "value": "[parameters('existingVirtualNetworkResourceGroup')]"
+          },
+          "subnetName": {
+              "value": "[parameters('subnetName')]"
+          },
+          "internalLoadBalancingMode": {
+              "value": "[parameters('internalLoadBalancingMode')]"
+          },
+          "dnsSuffix": {
+              "value": "[parameters('dnsSuffix')]"
+          }
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/deployments', concat(parameters('deploymentId'), '-infrabase'))]"
+      ]
+    }
+  ]
+}
