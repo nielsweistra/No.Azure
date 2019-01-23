@@ -33,7 +33,17 @@
     },
     "webApplicationSettings": {
       "type": "object"
-    }
+    },
+    "webApplicationSettingsDefault": {
+      "type": "object",
+      "defaultvalue": {
+          "appSettings": {
+            "prod": {
+                "appSetting03": "appSettingValue03"
+            }
+          }
+        }
+      } 
   },
   "variables": {
     "Siteproperties": {
@@ -52,7 +62,8 @@
         "netFrameworkVersion": "v4.7",
         "use32BitWorkerProcess": true,
         "webSocketsEnabled": false
-      }
+      },
+    "webApplicationSettingsMerged": "[union(parameters('webApplicationSettingsDefault'), parameters('webApplicationSettings'))]"  
   },
   "resources": [
     {
@@ -106,10 +117,15 @@
           "dependsOn": [
             "[concat('Microsoft.Web/sites/', parameters('webAppName'))]"
           ],
-          "properties": "[parameters('webApplicationSettings').appSettings.prod]"
+          "properties": "[variables('webApplicationSettingsMerged').appSettings.prod]"
         }
       ]
     }
   ],
-  "outputs": {}
+  "outputs": {
+    "objectOutput": {
+      "type": "object",
+      "value": "[variables('webApplicationSettingsMerged').appSettings.prod]"
+  }
+  }
   }
