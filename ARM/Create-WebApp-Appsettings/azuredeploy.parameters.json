@@ -15,7 +15,7 @@
             "value": {
                 "appSettings": {
                     "prod": {
-                        "appSetting01": "Aanpassing",
+                        "appSetting01": "appSettingValue01",
                         "appSetting02": "appSettingValue02"
                     }
                 }
