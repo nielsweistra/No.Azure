@@ -1,0 +1,25 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "appServiceName": {
+            "value": "NO-TST-ASE01"
+        },
+        "appServiceSkuName": {
+            "value": "F1"
+        },
+        "webAppName": {
+            "value": "NO-TST-WebAppSettings"
+        },
+        "webApplicationSettings": {
+            "value": {
+                "appSettings": {
+                    "prod": {
+                        "appSetting01": "Aanpassing",
+                        "appSetting02": "appSettingValue02"
+                    }
+                }
+            }
+        }
+    }
+}
