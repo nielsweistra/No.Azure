@@ -1,0 +1,73 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "keyVaultName": {
+            "value": "NO-KV-01"
+        },
+        "tenantId": {
+            "value": "b2569ab6-7aa8-43fe-9a2c-e4abeb992e00"
+        },
+        "accessPolicies": {
+            "value": [
+                {
+                    "tenantId": "b2569ab6-7aa8-43fe-9a2c-e4abeb992e00",
+                    "objectId": "6d93da8c-1883-41a0-8a5f-09a2a2339ae4",
+                    "permissions": {
+                        "keys": ["all"],
+                        "secrets": ["all"]
+                    }
+                }
+            ]
+        },
+        "vaultSku": {
+            "value": "Standard"
+        },
+        "enabledForDeployment": {
+            "value": true
+        },
+        "enabledForTemplateDeployment": {
+            "value": true
+        },
+        "enableVaultForVolumeEncryption": {
+            "value": false
+        },
+        "secretsObject": {
+            "value": {
+                "secrets": [						
+                    {
+                        "secretName": "exampleSecret1",
+                        "secretValue": "secretVaule1",
+                        "contentType": ""
+                    },
+                    {   
+                        "contentType": "",
+                        "secretName": "exampleSecret2",
+                        "secretValue": "secretValue2"
+                    },
+                    {
+                        "secretName": "Cert2",
+                        "contentType": "application/x-pkcs12",
+                        "secretValue" : "MIIbVQIBAzCCGx---Ib3DQEHAa---jCCBPowHXZ---/GpyqAICB9A="
+                    }
+                ]
+            }
+        },
+        "secretsObject2": {
+            "value": {
+                "secrets": [						
+                    {
+                        "secretName": "Cert",
+                        "contentType": "application/x-pkcs12",
+                        "secretValue" : "MIIbVQIBAzCCGx---Ib3DQEHAa---jCCBPowHXZ---/GpyqAICB9A="
+                    },
+                    {   
+                        "contentType": "",
+                        "secretName": "exampleSecret4",
+                        "secretValue": "secretValue4"
+                    }
+                ]
+            }
+        }
+    }
+}
